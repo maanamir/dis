@@ -1,0 +1,483 @@
+<div id="content" class="app-content box-shadow-z2" [class.app-aside-open]="navOpened"
+  [class.app-aside-closed]="!navOpened" role="main">
+  <div class="app-body">
+    <div class="app-body-inner">
+      <div class="row-col">
+        <div class="row-row">
+          <div class="row-body scrollable hover">
+            <div class="row-inner">
+              <div class="row-col">
+                <!-- Aside End -->
+                <!--Rightside -->
+                <div class="col-xs hidden-lg-up show" id="detail">
+                  <div class="row-col">
+                    <div class="col-lg col-md col-sm col-xs b-r">
+                      <div class="row-col">
+                        <div class="b-b white bg">
+                          <div class="navbar no-radius">
+                            <ul class="nav navbar-nav list-top-navbar">
+                              <li class="nav-item">
+                                <h5 class="navbar-item-title">Objectives</h5>
+                              </li>
+                              <!-- <li class="nav-item">
+                                <a
+                                  class="nav-link btn btn-green"
+                                  data-toggle="modal"
+                                  (click)="openModal(appinfomodal, null, true)"
+                                >
+                                  <i class="material-icons">add</i> Add
+                                  Objectives
+                                </a>
+                              </li> -->
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div class="row-row">
+                          <div class="row-body scrollable">
+                            <div class="row-inner">
+                              <div class="p-a">
+                                <div class="row">
+                                  <div class="col-xs-12">
+                                    <div class="table-box box visible">
+                                      <!-- <div class="box-header">
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <h2>Applications List</h2>
+                                          </div>
+                                        </div>
+                                      </div> -->
+
+                                      <div class="box-header p-8">
+                                        <div class="row">
+                                          <div class="col-md-1">
+                                            <h2 class="nowrap l-h">
+                                              Objectives
+                                            </h2>
+                                          </div>
+                                          <div class="col-md-11 text-right"></div>
+                                        </div>
+                                      </div>
+                                      <div class="table-box-body" id="datatable" [hidden]="!isFetchingData">
+                                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                                          class="table b-l-0 route-table m-b-0 table-hover table-striped table-bordered"
+                                          id="angulardatatable">
+                                          <thead class="thead-light">
+                                            <tr>
+                                              <!-- class="loadfreeth" -->
+
+                                              <th></th>
+                                              <th>Objective Name</th>
+                                              <th>Project ID</th>
+                                              <th>Project Name</th>
+                                              <th>Attachments</th>
+
+                                              <th>Add Activities to Objective</th>
+                                              <th>Display Activities </th>
+                                              <th>Percentage</th>
+                                              <th>Status</th>
+
+                                              <th class="text-align">Change Status</th>
+                                              <th class="text-align">Edit</th>
+                                              <th class="text-align">Delete</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <ng-template ngFor let-data [ngForOf]="result" let-i="index">
+                                              <!-- [class.odd]="" -->
+                                              <tr role="row" class="">
+                                                <td>
+                                                  {{ i + 1 }}
+                                                </td>
+                                                <td>
+                                                  {{ data.objective_name }}
+                                                </td>
+                                                <td>
+                                                  {{ data?.project_detail?.id }}
+                                                </td>
+                                                <td>
+                                                  {{
+                                                    data?.project_detail?.name
+                                                  }}
+                                                </td>
+                                                <td> <a (click)="
+                                                  openAttachments(upload,
+                                                    data
+                                                  )
+                                                "><i class="material-icons">attach_file</i>
+                                                  </a> </td>
+
+                                                <td>
+                                                  <span>
+                                                    <a (click)="
+                                                        openModal(
+                                                          appinfomodal,
+                                                          data,
+                                                          false
+                                                        )
+                                                      "><i class="material-icons">add</i>
+                                                    </a>
+
+                                                    <!-- <ng-template
+                                                    ngFor
+                                                    let-myitem
+                                                    [ngForOf]="result"
+                                                    let-ind="index"
+                                                  >
+                                                    {{}}
+                                                  </ng-template> -->
+                                                  </span>
+                                                  {{data?.activity_detail?.length}}
+
+                                                </td>
+
+                                                <td> <a (click)="
+                                                  openTreeModal(
+                                                    tree,data
+                                                  )
+                                                "><i class="material-icons">more</i>
+                                                  </a></td>
+
+                                                <td>
+
+                                                  <progressbar class="progress" [value]="data.percentage"
+                                                    type="success">
+                                                    {{data.percentage}}%</progressbar>
+
+                                                </td>
+                                                <td>
+                                                  <span class="label label-sm" [class.green]="
+                                                      data?.selected_user_assigned?.status == 'complete'
+                                                    " [class.orange]="
+                                                      data?.selected_user_assigned?.status == 'pending'
+                                                      || !data.selected_user_assigned?.status
+                                                    ">
+                                                    {{ data?.selected_user_assigned?.status }}
+
+                                                    <span *ngIf="!data.selected_user_assigned?.status"> pending</span>
+                                                  </span>
+                                                </td>
+
+                                                <!-- <td class="text-align">
+                                                  <span class="label label-sm" [class.green]="
+                                                      data.status == 'Unblocked'
+                                                    " [class.red]="
+                                                      data.status == 'Blocked'
+                                                    ">{{ data.status }}</span>
+                                                </td> -->
+                                                <td>
+                                                  <div class="btn-group inline" dropdown>
+                                                    <span class="nav-item inline dropdown">
+                                                      <a class="text-muted p-x-xs" aria-expanded="true" dropdownToggle>
+                                                        <i class="material-icons dropdown-icon">
+                                                          more_vert
+                                                        </i>
+                                                      </a>
+                                                    </span>
+                                                    <ul *dropdownMenu
+                                                      class="dropdown-menu custom-dropdown dropdown-menu-left  pull-right"
+                                                      role="menu">
+
+
+                                                      <li>
+                                                        <a (click)="updateAppStatus('pending',data)"
+                                                          class="dropdown-items" id="" title="Pending">
+                                                          <label>Pending</label>
+                                                        </a>
+                                                        <a (click)="updateAppStatus('complete',data)"
+                                                          class="dropdown-items" id="" title="Complete">
+                                                          <label>Complete</label>
+                                                        </a>
+                                                        <!-- <a (click)="updateAppStatus('hold',data)" class="dropdown-items" id="" title="Hold">
+                                                          <label>Hold</label>
+                                                        </a>
+                                                        <a (click)="updateAppStatus('cancelled',data)" class="dropdown-items" id="" title="Cancelled">
+                                                          <label>Cancelled</label>
+                                                        </a> -->
+                                                      </li>
+                                                      <!-- <li>
+                                                          <a class="dropdown-item" id="" title="View Detail">
+                                                            <i class="material-icons">delete</i>
+                                                            <label>Delete</label>
+                                                          </a>
+                                                        </li> -->
+
+                                                    </ul>
+
+                                                  </div>
+                                                  <!-- <a><i class="material-icons">more_vert</i></a> -->
+                                                </td>
+                                                <td class="text-align">
+                                                  <span *ngIf="
+                                                      data.Location ==
+                                                        location ||
+                                                      role == 'Admin'
+                                                    ">
+                                                    <a (click)="
+                                                        openModal(
+                                                          appinfomodal,
+                                                          data,
+                                                          false
+                                                        )
+                                                      "><i class="material-icons">edit</i>
+                                                    </a>
+                                                  </span>
+                                                </td>
+                                                <td class="text-align">
+                                                  <span *ngIf="
+                                                      data.Location ==
+                                                        location ||
+                                                      role == 'Admin'
+                                                    ">
+                                                    <!-- (click)="openModal(appinfomodal,data,false)" -->
+                                                    <a (click)="
+                                                        openConfirmationTab(
+                                                          deleteconfirmation,
+                                                          data
+                                                        )
+                                                      "><i class="material-icons">delete</i>
+                                                    </a>
+                                                  </span>
+                                                </td>
+                                              </tr>
+                                            </ng-template>
+                                          </tbody>
+                                          <td *ngIf="result?.length === 0" colspan="12" class="no-data-available">
+                                            Data is not Available.
+                                          </td>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Right End -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation  Modal -->
+  <ng-template #confirmation>
+    <div class="modal-body text-center">
+      <p>
+        Are you sure you want to <strong>{{ msgstatus }}</strong>
+        {{ changedApp?.name }}?
+      </p>
+      <button type="button" class="btn btn-green" (click)="updateAppStatus()">
+        Yes
+      </button>
+      <button type="button" class="btn btn-default" (click)="decline()">
+        No
+      </button>
+    </div>
+  </ng-template>
+  <!-- Confirmation  Modal -->
+  <ng-template #deleteconfirmation>
+    <div class="modal-body text-center">
+      <p>Are you sure you want to remove {{ changedApp?.name }}?</p>
+      <button type="button" class="btn btn-green" (click)="deleteApplication()">
+        Yes
+      </button>
+      <button type="button" class="btn btn-default" (click)="decline()">
+        No
+      </button>
+    </div>
+  </ng-template>
+
+  <!-- App Info  Modal -->
+  <ng-template #appinfomodal>
+    <app-objectivesmodal [formData]="formData" [newInstance]="newInstance" (outputAndReload)="outputAndReload()"
+      (output)="decline()"></app-objectivesmodal>
+  </ng-template>
+
+  <!-- Report  Modal
+  <ng-template #report>
+    <div class="modal-header _600">
+      <button type="button" class="close" (click)="closeReportsModal()">
+        <span aria-hidden="true">×</span>
+      </button>
+      Reports
+    </div>
+    <div class="modal-body text-center">
+      <div style="display:inline">
+        <button
+          (click)="generateReport('csv')"
+          class="btn btn-green round"
+          type="button"
+          title="Excel"
+        >
+          Generate CSV Report
+        </button>
+        <button
+          (click)="generateReport('pdf')"
+          class="btn btn-green round"
+          type="button"
+          title="Excel"
+        >
+          Generate PDF Report
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div> -->
+</div>
+
+<ng-template #tree>
+  <div class="modal-content">
+    <!--  -->
+    <form class="form-horizontal">
+      <div class="modal-header _600">
+        <button type="button" class="close" (click)="closeModal()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h3> Objective Name: {{selectedObjective?.objective_name}}</h3>
+        <h5> % complete: {{selectedObjective?.percentage}}%
+        </h5>
+
+      </div>
+
+      <div *ngFor="let data of treeData; let i = index">
+        <h4> #{{i +1}}</h4>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group row">
+              <label class="col-lg-3 form-control-label l-label">Activity:</label>
+
+              <div class="col-lg-9">
+                <input [value]="data?.activity_name" type="text" class="form-control" disabled />
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group row">
+              <label class="col-lg-3 form-control-label l-label">Status:</label>
+
+              <div class="col-lg-9">
+                <!-- <input [value]="data?.severity" type="text"
+                    class="form-control" disabled /> -->
+
+                <span class="label label-sm" [class.orange]="
+                    data.status == 'pending'
+                  " [class.green]="
+                    data.status == 'complete'
+
+                  " [class.red]="
+                    data.status == 'critical'
+                  ">
+                  {{ data.status }}
+                </span>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group row">
+              <label class="col-lg-3 form-control-label">% complete:</label>
+              <div class="col-lg-9">
+                <progressbar class="progress" [value]="data.percentage" type="success">
+                  {{data.percentage}}%</progressbar>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group row">
+              <label class="col-lg-3 form-control-label l-label">Start Date:</label>
+
+              <div class="col-lg-9">
+                <input [value]="data?.start_date | date" type="text" class="form-control" disabled />
+
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group row">
+              <label class="col-lg-3 form-control-label l-label">End Date:</label>
+
+              <div class="col-lg-9">
+                <input [value]="data?.end_date | date" #datePicker type="text" class="form-control" disabled />
+
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group row">
+              <label class="col-lg-3 form-control-label">severity:</label>
+              <div class="col-lg-9">
+                <span class="label label-sm" [class.green]="
+                    data.severity == 'low'
+                  " [class.blue]="
+                    data.severity == 'medium'
+
+                  " [class.red]="
+                    data.severity == 'critical'
+                  ">
+                  {{ data.severity }}
+                </span>
+
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="row" *ngIf="data?.users_assigned.length > 0">
+          <div class="col-md-6 table-box-body">
+            <table class="table b-l-0 route-table m-b-0 table-hover table-striped table-bordered">
+              <tr>
+                <th>User</th>
+                <th>Status</th>
+              </tr>
+              <tr *ngFor="let item of data.users_assigned">
+                <td> {{item?.name}} </td>
+                <td> <span *ngIf="item.status" class="label label-sm" [class.orange]="
+                    item.status == 'pending'
+                  " [class.green]="
+                  item.status == 'complete'
+
+                  " [class.red]="
+                  item.status == 'critical'
+                  ">
+                    {{ item.status }}
+                  </span>
+                  <span class="orange label label-sm" *ngIf="!item.status"> pending</span>
+                </td>
+
+              </tr>
+            </table>
+
+
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <hr class="line" />
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</ng-template>
+
+<ng-template #upload>
+  <shared-upload-attachments [title]="title" (output)="reload()" [attachments]="attachments" [formData]="tempFormData"
+    [fileType]="'objectives'">
+  </shared-upload-attachments>
+</ng-template>

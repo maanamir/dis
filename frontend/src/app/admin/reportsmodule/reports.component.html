@@ -1,0 +1,658 @@
+<div id="content" class="app-content box-shadow-z2" [class.app-aside-open]="navOpened"
+  [class.app-aside-closed]="!navOpened" role="main">
+  <div class="app-body">
+    <div class="app-body-inner">
+      <div class="row-col">
+        <div class="row-row">
+          <div class="row-body scrollable hover">
+            <div class="row-inner">
+              <div class="row-col">
+
+                <!-- <! Aside -> -->
+                <div class="col-xs modal fade aside aside-sm  b-r width-200 white" id="list">
+                  <!-- List Style Leftside  -->
+                  <div class="white bg b-b toptoolbar">
+                    <!-- inner top navbar start -->
+                    <div class="navbar no-radius">
+                      <!-- link and dropdown -->
+                      <ul class="nav navbar-nav list-top-navbar">
+
+                        <li class="nav-item">
+                          <!-- <a class="nav-link btn btn-green" data-toggle="modal"
+                            (click)="openModal(appinfomodal,null,true)">
+                            <i class="material-icons">add</i> Add IP
+                          </a> -->
+                        </li>
+                        <!-- <li class="nav-item dropdown">
+                          <a class="nav-link btn btn-line" id="jobs-filter"><i class="fa fa-search"></i> &nbsp;Search
+                            <i class="material-icons text-danger search_icon_remove hide" aria-hidden="true" onclick="jobfilterreset();">clear</i>
+                          </a>
+                        </li> -->
+                      </ul>
+                    </div>
+                    <!-- inner top navbar end -->
+                  </div>
+                  <!-- Items -->
+                  <div class="list">
+                    <ng-template ngFor let-item [ngForOf]="allStatuses" let-i="index">
+
+                      <div class="inner-list">
+
+                        <div class="list-item" [ngClass]="{'active': item.id == selectedAppStatus?.id}"
+                          (click)="statusSelected(item)">
+
+                          <div class="list-item-wrapper">
+                            <div class="list-left">
+                              <i class="material-icons text-success">lense</i>
+                            </div>
+                            <div class="list-body">
+                              <div class="item-title">
+                                <a class="_500">{{item.name}}</a>
+                              </div>
+                            </div>
+                          </div>
+
+
+
+                        </div>
+                      </div>
+
+                    </ng-template>
+
+                  </div>
+                  <!--- End item -->
+
+                </div>
+
+                <div class="col-xs hidden-lg-up show" id="detail">
+                  <div class="row-col">
+                    <div class="col-lg col-md col-sm col-xs b-r">
+                      <div class="row-col">
+                        <div class="b-b white bg">
+                          <div class="navbar no-radius">
+                            <div class="row">
+                              <div class="col-md-9">
+                                <ul class="nav navbar-nav list-top-navbar">
+                                  <li class="nav-item">
+                                    <h1 class="navbar-item-title">
+                                      REPORTS
+                                    </h1>
+                                  </li>
+
+                                  <li class="nav-item"></li>
+                                </ul>
+                              </div>
+                              <div class="col-md-3">
+                                <ul class="nav navbar-nav list-top-navbar">
+
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row-row">
+                          <div class="row-body scrollable">
+                            <div class="row-inner">
+                              <div class="p-a">
+                                <div class="row">
+
+                                  <!-- Projects  -->
+                                  <div class="col-xs-12" [hidden]="!isFetchingData">
+                                    <div class="table-box box visible">
+                                      <div class="box-header p-8">
+                                        <div class="row">
+                                          <div class="col-md-4">
+                                            <h2 class="nowrap l-h" style="inline-block">
+                                              Project Wise Report
+                                            </h2>
+                                          </div>
+                                          <div class="col-md-4">
+
+                                          </div>
+                                          <div class="col-md-4 text-right">
+                                            <li class="nav-item dropdown"></li>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="table-box-body" id="datatable" [hidden]="!isFetchingData">
+                                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                                          class="table b-l-0 route-table m-b-0 table-hover table-striped table-bordered"
+                                          id="angulardatatable">
+                                          <thead class="thead-light">
+                                            <tr>
+                                              <th>#</th>
+                                              <th>Project Name</th>
+                                              <th>Percentage</th>
+                                              <th>Status</th>
+                                              <th>Department</th>
+                                              <th>Start Date</th>
+                                              <th>End Date</th>
+                                              <th>Objectives</th>
+                                              <th>Total # of Objectives</th>
+                                              <th>Completed # of Objectives</th>
+                                              <th>Activities</th>
+                                              <th>Total # of Activities</th>
+                                              <th>Completed # of Activities</th>
+                                              <th>Tasks</th>
+                                              <th>Total # of Tasks</th>
+                                              <th>Completed # of Tasks</th>
+                                              <th>Project Coordinators / Officerss</th>
+                                              <th>Project Managerss</th>
+                                              <th>Managers</th>
+
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <ng-template ngFor let-data [ngForOf]="result" let-i="index">
+                                              <!-- [class.odd]="" -->
+                                              <tr role="row" class="">
+                                                <td>
+                                                  {{ i+1 }}
+                                                </td>
+                                                <td>
+                                                  {{ data.name }}
+                                                </td>
+                                                <td>
+                                                  {{ data.percentage }}
+                                                </td>
+                                                <td>
+                                                  {{ data.status }}
+                                                </td>
+                                                <td>
+                                                  {{ data.department }}
+                                                </td>
+                                                <td>
+                                                  {{ data.start_date | date }}
+                                                </td>
+                                                <td>
+                                                  {{ data.end_date | date }}
+                                                </td>
+
+                                                <td>
+                                                  {{data?.objective_names.toString()}}
+
+
+                                                </td>
+                                                <td>
+                                                  {{data?.objective_detail.length}}
+
+                                                </td>
+                                                <td>
+                                                  {{data?.objective_complete}}
+
+                                                </td>
+                                                <td>
+                                                  {{data?.activity_names.toString()}}
+
+                                                </td>
+                                                <td>
+                                                  {{data?.activity_detail.length}}
+
+                                                </td>
+                                                <td>
+                                                  {{data?.activity_complete}}
+
+                                                </td>
+                                                <td>
+                                                  {{data?.task_names.toString()}}
+                                                </td>
+                                                <td>
+                                                  {{data?.task_detail.length}}
+
+                                                </td>
+                                                <td>
+                                                  {{data?.task_complete}}
+
+                                                </td>
+
+                                                <td>
+
+                                                  {{data?.task_users.toString() }}
+                                                </td>
+                                                <td>
+                                                  {{data?.activity_users.toString() }}
+
+                                                </td>
+                                                <td>
+                                                  {{data?.objectives_users.toString() }}
+
+                                                </td>
+
+
+                                              </tr>
+                                              <tr *ngIf="
+                                                  result == 0 && isFetchingData
+                                                ">
+                                                <td colspan="12" class="no-data-available">
+                                                  Data is not Available.
+                                                </td>
+                                              </tr>
+                                            </ng-template>
+                                          </tbody>
+                                        </table>
+
+
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <!-- Objectives  -->
+                                  <div class="col-xs-12" [hidden]="!isFetchingData2">
+                                    <div class="table-box box visible">
+                                      <div class="box-header p-8">
+                                        <div class="row">
+                                          <div class="col-md-4">
+                                            <h2 class="nowrap l-h" style="inline-block">
+                                              Objective Wise Report
+                                            </h2>
+                                          </div>
+                                          <div class="col-md-4">
+
+                                          </div>
+                                          <div class="col-md-4 text-right">
+                                            <li class="nav-item dropdown"></li>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="table-box-body" id="datatable" [hidden]="!isFetchingData2">
+                                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger2"
+                                          class="table b-l-0 route-table m-b-0 table-hover table-striped table-bordered"
+                                          id="angulardatatable2">
+                                          <thead class="thead-light">
+                                            <tr>
+                                              <th>Objective Name</th>
+                                              <th>Percentage</th>
+                                              <th>Status</th>
+                                              <th>Project Name</th>
+                                              <th>Assigned To</th>
+                                              <th>Start Date</th>
+                                              <th>End Date</th>
+
+                                              <th>Activities</th>
+                                              <th>Total # of Activities</th>
+                                              <th>Completed # of Activities</th>
+                                              <th>Tasks</th>
+                                              <th>Total # of Tasks</th>
+                                              <th>Completed # of Tasks</th>
+
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <ng-template ngFor let-data [ngForOf]="result2" let-i="index">
+                                              <!-- [class.odd]="" -->
+                                              <tr role="row" class="">
+                                                <td>
+                                                  {{ data.objective_name }}
+                                                </td>
+                                                <td>
+                                                  {{ data.percentage }}
+                                                </td>
+                                                <td>
+                                                  {{ data.status }}
+                                                </td>
+                                                <td>
+                                                  {{ data.project_detail.name }}
+                                                </td>
+                                                <td>
+                                                  {{ data.objectives_users.toString() }}
+                                                </td>
+
+                                                <td>
+                                                  {{ data.start_date | date }}
+                                                </td>
+                                                <td>
+                                                  {{ data.end_date | date }}
+                                                </td>
+
+
+                                                <td>
+                                                  {{data.activity_names.toString()}}
+
+                                                </td>
+                                                <td>
+                                                  {{data.activity_detail.length}}
+
+                                                </td>
+                                                <td>
+                                                  {{data.activity_complete}}
+
+                                                </td>
+                                                <td>
+                                                  {{data.task_names.toString()}}
+                                                </td>
+                                                <td>
+                                                  {{data.task_detail.length}}
+
+                                                </td>
+                                                <td>
+                                                  {{data.task_complete}}
+
+                                                </td>
+
+
+
+                                              </tr>
+                                              <tr *ngIf="
+                                                  result == 0 && isFetchingData
+                                                ">
+                                                <td colspan="12" class="no-data-available">
+                                                  Data is not Available.
+                                                </td>
+                                              </tr>
+                                            </ng-template>
+                                          </tbody>
+                                        </table>
+
+
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <!-- Activities -->
+
+                                  <div class="col-xs-12" [hidden]="!isFetchingData3">
+                                    <div class="table-box box visible">
+                                      <div class="box-header p-8">
+                                        <div class="row">
+                                          <div class="col-md-4">
+                                            <h2 class="nowrap l-h" style="inline-block">
+                                              Activities Wise Report
+                                            </h2>
+                                          </div>
+                                          <div class="col-md-4">
+
+                                          </div>
+                                          <div class="col-md-4 text-right">
+                                            <li class="nav-item dropdown"></li>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="table-box-body" id="datatable" [hidden]="!isFetchingData3">
+                                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger3"
+                                          class="table b-l-0 route-table m-b-0 table-hover table-striped table-bordered"
+                                          id="angulardatatable3">
+                                          <thead class="thead-light">
+                                            <tr>
+                                              <th>#</th>
+                                              <th>Activity Name</th>
+                                              <th>Percentage</th>
+                                              <th>Status</th>
+                                              <th>Objective Name</th>
+                                              <th>Project Name</th>
+                                              <th>Assigned To</th>
+
+                                              <th>Start Date</th>
+                                              <th>End Date</th>
+                                              <th>Tasks</th>
+                                              <th>Total # of Tasks</th>
+                                              <th>Completed # of Tasks</th>
+
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <ng-template ngFor let-data [ngForOf]="result3" let-i="index">
+                                              <!-- [class.odd]="" -->
+                                              <tr role="row" class="">
+                                                <td>
+                                                  {{ i+1 }}
+                                                </td>
+                                                <td>
+                                                  {{ data.activity_name }}
+                                                </td>
+                                                <td>
+                                                  {{ data.percentage }}
+                                                </td>
+                                                <td>
+                                                  {{ data.status }}
+                                                </td>
+                                                <td>
+                                                  {{ data.objective_detail.objective_name }}
+                                                </td>
+                                                <td>
+                                                  {{ data.project_detail.name }}
+                                                </td>
+                                                <td>
+                                                  {{ data.activity_users.toString() }}
+                                                </td>
+                                                <td>
+                                                  {{ data.start_date | date }}
+                                                </td>
+                                                <td>
+                                                  {{ data.end_date | date }}
+                                                </td>
+
+
+                                                <td>
+                                                  {{data.task_names.toString()}}
+                                                </td>
+                                                <td>
+                                                  {{data.task_detail.length}}
+
+                                                </td>
+                                                <td>
+                                                  {{data.task_complete}}
+
+                                                </td>
+
+
+
+                                              </tr>
+                                              <tr *ngIf="
+                                                  result == 0 && isFetchingData
+                                                ">
+                                                <td colspan="12" class="no-data-available">
+                                                  Data is not Available.
+                                                </td>
+                                              </tr>
+                                            </ng-template>
+                                          </tbody>
+                                        </table>
+
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- tasks -->
+                                  <div class="col-xs-12" [hidden]="!isFetchingData4">
+                                    <div class="table-box box visible">
+                                      <div class="box-header p-8">
+                                        <div class="row">
+                                          <div class="col-md-4">
+                                            <h2 class="nowrap l-h" style="inline-block">
+                                              Tasks Wise Report
+                                            </h2>
+                                          </div>
+                                          <div class="col-md-4">
+
+                                          </div>
+                                          <div class="col-md-4 text-right">
+                                            <li class="nav-item dropdown"></li>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="table-box-body" id="datatable" [hidden]="!isFetchingData4">
+                                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger4"
+                                          class="table b-l-0 route-table m-b-0 table-hover table-striped table-bordered"
+                                          id="angulardatatable4">
+                                          <thead class="thead-light">
+                                            <tr>
+                                              <th>#</th>
+                                              <th>Task Name</th>
+                                              <th>Percentage</th>
+                                              <th>Status</th>
+                                              <th>Activity Name</th>
+                                              <th>Objective Name</th>
+                                              <th>Project Name</th>
+
+                                              <th>Project Coordinators / Officerss Assigned</th>
+                                              <th>Start Date</th>
+                                              <th>End Date</th>
+
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <ng-template ngFor let-data [ngForOf]="result4" let-i="index">
+                                              <!-- [class.odd]="" -->
+                                              <tr role="row" class="">
+                                                <td>
+                                                  {{ i+1 }}
+                                                </td>
+                                                <td>
+                                                  {{ data.task_name }}
+                                                </td>
+                                                <td>
+                                                  {{ data.percentage }}
+                                                </td>
+                                                <td>
+                                                  {{ data.status }}
+                                                </td>
+                                                <td>
+                                                  {{ data.activity_detail.activity_name }}
+                                                </td>
+                                                <td>
+                                                  {{ data.objective_detail.objective_name }}
+                                                </td>
+                                                <td>
+                                                  {{ data.project_detail.name }}
+                                                </td>
+                                                <td>
+                                                  {{ data.task_users.toString() }}
+                                                </td>
+                                                <td>
+                                                  {{ data.start_date | date }}
+                                                </td>
+                                                <td>
+                                                  {{ data.end_date | date }}
+                                                </td>
+
+
+
+
+                                              </tr>
+                                              <tr *ngIf="
+                                                  result4 == 0 && isFetchingData
+                                                ">
+                                                <td colspan="12" class="no-data-available">
+                                                  Data is not Available.
+                                                </td>
+                                              </tr>
+                                            </ng-template>
+                                          </tbody>
+                                        </table>
+
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- employee -->
+                                  <div class="col-xs-12" [hidden]="!isFetchingData5">
+                                    <div class="table-box box visible">
+                                      <div class="box-header p-8">
+                                        <div class="row">
+                                          <div class="col-md-4">
+                                            <h2 class="nowrap l-h" style="inline-block">
+                                              User Wise Report
+                                            </h2>
+                                          </div>
+                                          <div class="col-md-4">
+
+                                          </div>
+                                          <div class="col-md-4 text-right">
+                                            <li class="nav-item dropdown"></li>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="table-box-body" id="datatable" [hidden]="!isFetchingData5">
+                                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger5"
+                                          class="table b-l-0 route-table m-b-0 table-hover table-striped table-bordered"
+                                          id="angulardatatable5">
+                                          <thead class="thead-light">
+                                            <tr>
+                                              <th>#</th>
+                                              <th>User Name</th>
+                                              <th>Role</th>
+                                              <th>Status</th>
+                                              <th>Objectives Total</th>
+                                              <th>Objectives Completed</th>
+                                              <th>Activities Total</th>
+                                              <th>Activities Completed</th>
+                                              <th>Tasks Total</th>
+                                              <th>Tasks Completed</th>
+
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <ng-template ngFor let-data [ngForOf]="result5" let-i="index">
+                                              <!-- [class.odd]="" -->
+                                              <tr role="row" class="">
+                                                <td>
+                                                  {{ i+1 }}
+                                                </td>
+                                                <td>
+                                                  {{ data.name }}
+                                                </td>
+                                                <td>
+                                                  {{ data.role }}
+                                                </td>
+                                                <td>
+                                                  {{ data.status }}
+                                                </td>
+                                                <td>
+                                                  {{ data.objectives.length }}
+                                                </td>
+                                                <td>
+                                                  {{ data.objectives_complete }}
+                                                </td>
+                                                <td>
+                                                  {{ data.activities.length }}
+                                                </td>
+                                                <td>
+                                                  {{ data.activities_complete }}
+                                                </td>
+                                                <td>
+                                                  {{ data.tasks.length }}
+                                                </td>
+                                                <td>
+                                                  {{ data.tasks_complete }}
+                                                </td>
+
+
+                                              </tr>
+                                              <tr *ngIf="
+                                                  result4 == 0 && isFetchingData
+                                                ">
+                                                <td colspan="12" class="no-data-available">
+                                                  Data is not Available.
+                                                </td>
+                                              </tr>
+                                            </ng-template>
+                                          </tbody>
+                                        </table>
+
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Right End -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
